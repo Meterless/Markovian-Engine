@@ -2,7 +2,7 @@
 
 # Meterless Markovian Engine
 
-**Long reasoning in bounded chunks. O(1) context per step instead of O(n²) cumulative cost. Provider-agnostic. Production-ready. Unlock unbounded effective content windows. Time to overclock your models**
+**Long reasoning in bounded chunks. O(1) context per step instead of O(n²) cumulative cost. Provider-agnostic. Production-ready. Unlock unbounded effective content windows with model overclocking.**
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Architecture](https://img.shields.io/badge/architecture-provider--agnostic-purple.svg)](docs/architecture.md)
