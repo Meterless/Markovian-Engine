@@ -1,5 +1,7 @@
 <div align="center">
-
+  
+<img src="images/Markovian_Engine_Hero_Image.png" alt="Meterless Markovian Engine Hero Image" width="100%" />
+  
 # Meterless Markovian Engine
 
 **Long reasoning in bounded chunks. O(1) context per step instead of O(n²) cumulative cost. Provider-agnostic. Production-ready. Unlock unbounded effective content windows with model overclocking.**
@@ -44,6 +46,8 @@ The runtime is **provider-agnostic**. You inject a generator function. The runti
 ---
 
 ## The math
+
+<img src="images/Markovian_Engine_Cost_Curve.png" alt="Meterless Markovian Engine Hero Image" width="100%" />
 
 The reference savings model, applied per chunk `i`:
 
@@ -105,6 +109,8 @@ The agent will pick your chunk config (chunk size, carryover budget, max chunks)
 
 ## Architecture
 
+<img src="images/Markovian_Engine_Chunks.png" alt="Meterless Markovian Engine Hero Image" width="100%" />
+
 ```mermaid
 flowchart LR
   A[User goal + optional context] --> B[Prompt Builder<br/>mode-specific]
@@ -152,7 +158,7 @@ Robust against model instability, API errors, and weird outputs.
 ---
 
 ## Example for use
-
+<img src="images/Markovian_Engine_Stack.png" alt="Meterless Markovian Engine Hero Image" width="100%" />
 Wire up a generator function with this conceptual signature:
 
 ```ts
@@ -191,6 +197,8 @@ Default config:
 ---
 
 ## Performance reporting
+
+<img src="images/Markovian_Engine_Telemetry.png" alt="Meterless Markovian Engine Hero Image" width="100%" />
 
 The Engine tab ships two chart modes.
 
