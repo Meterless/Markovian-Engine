@@ -1,6 +1,6 @@
 <div align="center">
 
-# Markovian Engine
+# Meterless Markovian Engine
 
 **Long reasoning in bounded chunks. O(1) context per step instead of O(n²) cumulative cost. Provider-agnostic. Production-ready.**
 
