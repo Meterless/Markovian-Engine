@@ -2,7 +2,7 @@
 
 # Meterless Markovian Engine
 
-**Long reasoning in bounded chunks. O(1) context per step instead of O(n²) cumulative cost. Provider-agnostic. Production-ready. Unlock unbounded effective content windows.**
+**Long reasoning in bounded chunks. O(1) context per step instead of O(n²) cumulative cost. Provider-agnostic. Production-ready. Unlock unbounded effective content windows. Time to overclock your models**
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Architecture](https://img.shields.io/badge/architecture-provider--agnostic-purple.svg)](docs/architecture.md)
@@ -67,7 +67,7 @@ The engine doesn't stop there. Chunk size is the knob — turn it, and the engin
 | 64K | 5,000 (7.8%) | ~768K | 3× more room | 15× more room | **Capability extension** |
 | 128K (max) | 32,000 (25%) | ~1.5M | 1.5× more room | 8× more room | **Architectural advantage** |
 
-The thresholds matter:
+Save money of overclock your models:
 
 - **Below ~40K tokens of work** — native models can already do it. Markovian just makes it cheaper.
 - **40K to 80K tokens** — Markovian extends 200K-class models past their native ceiling. Native windows still have better in-window coherence; Markovian wins on reach.
