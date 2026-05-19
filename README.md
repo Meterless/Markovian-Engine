@@ -206,7 +206,7 @@ Auto-switches to actual mode when one or more historical runs exist.
 
 - Not a wrapper around any one provider.
 - Not a chain-of-thought prompt template.
-- Not a memory system. It accepts external memory context but does not store memories itself. Pair it with [H-MEM](../h-mem) if you want both.
+- Not a memory system. It accepts external memory context but does not store memories itself. Pair it with [H-MEM](https://github.com/Meterless/H-MEM/) if you want both.
 - Not magic. Token accounting is heuristic (`chars / 4`). Production deployments should swap in a real tokenizer.
 
 ---
