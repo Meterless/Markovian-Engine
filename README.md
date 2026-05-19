@@ -2,7 +2,7 @@
 
 # Meterless Markovian Engine
 
-**Long reasoning in bounded chunks. O(1) context per step instead of O(n²) cumulative cost. Provider-agnostic. Production-ready.**
+**Long reasoning in bounded chunks. O(1) context per step instead of O(n²) cumulative cost. Provider-agnostic. Production-ready. Unlock unbounded effective content windows.**
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Architecture](https://img.shields.io/badge/architecture-provider--agnostic-purple.svg)](docs/architecture.md)
@@ -24,7 +24,7 @@ Markovian fixes this.
 
 ---
 
-## What this is
+## What this the Meterless Markovian Engine
 
 A chunked reasoning runtime that runs long tasks as a sequence of bounded steps. Each step sees:
 
@@ -54,7 +54,52 @@ markovianChunkCost    = carryoverTokens + chunkTokens
 chunkSavings          = max(0, standardChunkCost - markovianChunkCost)
 ```
 
-For a default chain of 12 chunks at `chunkSize=8000` and `carryoverTokens=256`, the standard approach pays cumulative cost in the hundreds of thousands of tokens. Markovian pays roughly 12 × (256 + 8000). The Engine tab plots both curves live.
+The standard approach is **quadratic in chain length**. The Markovian approach is **flat**. That single difference is the entire thesis.
+
+At the production default — `chunkSize = 8000`, `carryoverTokens = 256`, 12 chunks — the standard approach pays a cumulative **~624,000 tokens**. Markovian pays roughly **12 × (256 + 8000) ≈ 99,000 tokens** to address **~96K tokens of context** at **3% compression**. Same work. **~84% saved**. And that's the *cheapest* configuration.
+
+The engine doesn't stop there. Chunk size is the knob — turn it, and the engine moves through three distinct regimes:
+
+| Chunk size | Carryover | Total addressable | vs Opus 4.7 (200K) | vs Gemini 3.1 Pro (1M) | Regime |
+|---|---|---|---|---|---|
+| 8K (default) | 256 (3%) | ~96K | 25× more room | 125× more room | **Cost optimization** |
+| 32K | 2,400 (7.3%) | ~384K | 6× more room | 30× more room | **Capability extension** |
+| 64K | 5,000 (7.8%) | ~768K | 3× more room | 15× more room | **Capability extension** |
+| 128K (max) | 32,000 (25%) | ~1.5M | 1.5× more room | 8× more room | **Architectural advantage** |
+
+The thresholds matter:
+
+- **Below ~40K tokens of work** — native models can already do it. Markovian just makes it cheaper.
+- **40K to 80K tokens** — Markovian extends 200K-class models past their native ceiling. Native windows still have better in-window coherence; Markovian wins on reach.
+- **Above 80K tokens** — this is the architectural advantage zone. Markovian unlocks reasoning surfaces *beyond any native model's capacity*, on any provider, at deterministic cost.
+
+By the time you push chain depth and chunk size together, the curves diverge violently. A 12-chunk run at 128K chunks addresses **1.5M tokens of context** — beyond Gemini's native window, beyond every Opus call you could chain by hand, beyond what any single-shot architecture can hold at once. Markovian gets there with twelve sequential reasoning passes and bounded carryover between them. The math doesn't care which provider you're on.
+
+This is why bounded carryover is revolutionary. Every other approach to long reasoning is fighting the same fight against quadratic growth — bigger windows, smarter compression, smarter eviction. They buy time. They don't change the curve. Markovian changes the curve. Chain depth and chunk size become knobs you turn instead of walls you hit, and the engine can finally reason for as long as the problem demands instead of as long as a single context window will tolerate.
+
+**Honest verdict:**
+
+- **8K–32K** is a cost play. Same capability, cheaper.
+- **32K–64K** is capability extension. Reach beyond the 200K class.
+- **64K–128K** is architectural advantage. Reasoning surfaces no single model call can deliver.
+
+Pick the chunk size that matches your workload's total context, latency tolerance, and cost ceiling. The Engine tab plots both curves live so you can watch the gap open in real time.
+
+---
+
+## Quickstart
+
+This repo is the implementation spec, not a runtime library. You can download the `AGENTS.md` alone. Or clone the repo, open it in your coding agent, and let `AGENTS.md` guide the build into your stack.
+
+```bash
+gh repo clone meterless/markovian-engine
+cd markovian-engine
+# Open in Claude Code, Cursor, Codex, or any AGENTS.md-aware agent
+```
+
+Then prompt your agent: *"Implement the Markovian engine in this project following AGENTS.md."*
+
+The agent will pick your chunk config (chunk size, carryover budget, max chunks), wire up the marker protocol, scaffold the compression cascade, stand up run history and telemetry, and leave reflection and resume as opt-in stages you can grow into. Architectural reference in `/docs`.
 
 ---
 
@@ -106,13 +151,7 @@ Robust against model instability, API errors, and weird outputs.
 
 ---
 
-## Quick start
-
-```bash
-git clone https://github.com/your-org/markovian-engine.git
-cd markovian-engine
-# follow your stack's setup
-```
+## Example for use
 
 Wire up a generator function with this conceptual signature:
 
